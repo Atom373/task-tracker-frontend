@@ -1,0 +1,32 @@
+html {
+    overflow-y: scroll;
+}
+
+li {
+    transition: all 0.3s ease-in-out;
+    animation: fadeIn 0.5s linear;
+}
+
+li:hover {
+    transform: scale(1.02);
+}
+
+hr {
+    height: 1px; 
+    background-color: black; 
+    border: none;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        margin-top: -50px;
+    }    
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        margin-top: 0px;
+    }  
+}
