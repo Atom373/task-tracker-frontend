@@ -313,7 +313,7 @@ function createTask(title, description, isFinished, taskId) {
 
 function sendCreateTaskRequest(title, taskIdHolder) {
     $.ajax({
-        url: serverUrl + '/task/create', 
+        url: serverUrl + '/task', 
         type: 'POST',
         data: {
             title: title
@@ -333,8 +333,8 @@ function sendCreateTaskRequest(title, taskIdHolder) {
 
 function sendUpdateTitleRequest(title, taskId) {
     $.ajax({
-        url: serverUrl + '/task/update/title', 
-        type: 'POST',
+        url: serverUrl + '/task/title', 
+        type: 'PATCH',
         data: {
             taskId: taskId,
             title: title
@@ -348,8 +348,8 @@ function sendUpdateTitleRequest(title, taskId) {
 
 function sendUpdateDescriptionRequest(description, taskId) {
     $.ajax({
-        url: serverUrl + '/task/update/description', 
-        type: 'POST',
+        url: serverUrl + '/task/description', 
+        type: 'PATCH',
         data: {
             taskId: taskId,
             description: description
@@ -363,8 +363,8 @@ function sendUpdateDescriptionRequest(description, taskId) {
 
 function sendUpdateIsFinishedRequest(isFinished, taskId) {
     $.ajax({
-        url: serverUrl + '/task/update/isfinished', 
-        type: 'POST',
+        url: serverUrl + '/task/is-finished', 
+        type: 'PATCH',
         data: {
             taskId: taskId,
             isFinished: isFinished
@@ -377,8 +377,8 @@ function sendUpdateIsFinishedRequest(isFinished, taskId) {
 
 function sendDeleteTaskRequest(taskId) {
     $.ajax({
-        url: serverUrl + '/task/delete', 
-        type: 'POST',
+        url: serverUrl + '/task', 
+        type: 'DELETE',
         data: {
             taskId: taskId,
         },
