@@ -32,6 +32,8 @@ $(document).ready(function () {
         event.preventDefault();
         var title = $("#taskInput").val().trim();
         $("#taskInput").val("");
+        if (title === "")
+            return;
         var task = createAndSaveTaskWithTitle(title);
         $("#unfinishedTasksList").prepend(task);
         showOrHideNotifications();
