@@ -118,6 +118,7 @@ function showGreeting(email) {
 function processLogout() {
     hideMain();
     localStorage.removeItem("jwt");
+    localStorage.removeItem("jwtExpirationDate");
 }
 
 function getUserTasks() {
