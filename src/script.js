@@ -4,11 +4,10 @@ var tasksInfo = {};
 
 $(document).ready(function () {
 
-    var currentDate = new Date();
-    var jwtExpirationDate = localStorage.getItem("jwtExpirationDate");
-    if (jwtExpirationDate !== null) {
-        var expirationDate = new Date(jwtExpirationDate);
-        if (expirationDate > currentDate) {
+    var jwtExpirationTime = localStorage.getItem("jwtExpirationTime");
+    if (jwtExpirationTime !== null) {
+        var currentTime = Math.floor(Date.now() / 1000);
+        if (jwtExpirationTime > currentTime) {
             addJwtToAjaxRequests();
             showGreeting(localStorage.getItem("email"));
             showMain();
@@ -62,10 +61,9 @@ function sendRegistartionRequest() {
         data: JSON.stringify(registrationData),
         success: function(response) {
             var jwt = response.jwt;
-            var jwtExpirationDate = new Date();
-            jwtExpirationDate.setDate(new Date().getDate() + 1);
+            var jwtExpirationTime = response.expirationTime;
             localStorage.setItem("jwt", jwt);
-            localStorage.setItem("jwtExpirationDate", jwtExpirationDate);
+            localStorage.setItem("jwtExpirationTime", jwtExpirationTime);
             localStorage.setItem("email", registrationData['email']);
             addJwtToAjaxRequests();
             showGreeting(registrationData['email']);
@@ -90,10 +88,9 @@ function sendLoginRequest() {
         data: JSON.stringify(loginData),
         success: function(response) {
             var jwt = response.jwt;
-            var jwtExpirationDate = new Date();
-            jwtExpirationDate.setDate(new Date().getDate() + 1);
+            var jwtExpirationTime = response.expirationTime;
             localStorage.setItem("jwt", jwt);
-            localStorage.setItem("jwtExpirationDate", jwtExpirationDate);
+            localStorage.setItem("jwtExpirationTime", jwtExpirationTime);
             localStorage.setItem("email", loginData['email']);
             addJwtToAjaxRequests();
             showGreeting(loginData['email']);
@@ -118,7 +115,7 @@ function showGreeting(email) {
 function processLogout() {
     hideMain();
     localStorage.removeItem("jwt");
-    localStorage.removeItem("jwtExpirationDate");
+    localStorage.removeItem("jwtExpirationTime");
 }
 
 function getUserTasks() {
@@ -330,6 +327,7 @@ function sendCreateTaskRequest(title, taskIdHolder) {
         },
         error: function(xhr, status, error) {
             console.log("Task create request failed");
+            processLogout();
         },
     }); 
 }
@@ -344,6 +342,7 @@ function sendUpdateTitleRequest(title, taskId) {
         },
         error: function(xhr, status, error) {
             console.log("Title update request failed");
+            processLogout();
         },
     }); 
     tasksInfo[taskId].title = title;
@@ -359,6 +358,7 @@ function sendUpdateDescriptionRequest(description, taskId) {
         },
         error: function(xhr, status, error) {
             console.log("Description update request failed");
+            processLogout();
         },
     }); 
     tasksInfo[taskId].description = description;
@@ -373,7 +373,8 @@ function sendUpdateIsFinishedRequest(isFinished, taskId) {
             isFinished: isFinished
         },
         error: function(xhr, status, error) {
-            console.log("Description update request failed");
+            console.log("Is finished update request failed");
+            processLogout();
         },
     });
 }
@@ -387,6 +388,7 @@ function sendDeleteTaskRequest(taskId) {
         },
         error: function(xhr, status, error) {
             console.log("Task delete request failed");
+            processLogout();
         },
     });
     delete tasksInfo[taskId];
